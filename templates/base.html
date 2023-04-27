@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--IMPORTAÇÕES-->
+   {% include "parciais/head.html" %}
+
+    {% block head %}{% endblock head %}
+    <title>{% block title %}E-commerce{% endblock title %}</title>
+
+</head>
+<body>
+
+    <!--INCLUDE NAVBAR-->
+    {% include 'parciais/navbar.html' %}
+
+    <main class="container mt-4 mb-4">
+        {% block conteudo %}{% endblock conteudo %}
+    </main>
+    
+    <!--Messagem da view backend-->
+    {% include 'parciais/message.html' %}
+    <!--IMPORTAÇÕES JS-->
+    {% include 'parciais/js.html' %}
+</body>
+</html>

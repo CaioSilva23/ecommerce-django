@@ -1,0 +1,56 @@
+ <!--NAVBAR-->
+ <nav class="navbar navbar-expand-lg bg-primary-color" id="navbar">
+  <div class="container py-3">
+
+      <!--LOGO-->
+      <a href="{% url 'produto:list' %}" class="navbar-brand">
+          {% comment %} <img src="img/imovi-icon.png" alt="imovi"> {% endcomment %}
+          <span>E-commerce</span>
+          
+      </a>
+
+      <!--LINKS-->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-items"
+          aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation">
+
+          <i class="bi bi-list"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-items">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            {% if not request.user.is_authenticated %}
+              <li class="nav-item">
+                  <a href="#" class="nav-link active primary-color" aria-current="page">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a href="#" class="nav-link primary-color">Projetos</a>
+              </li>
+              <li class="nav-item">
+                  <a href="#" class="nav-link primary-color">Imoveis</a>
+              </li>
+              <li class="nav-item">
+                  <a href="#" class="nav-link primary-color">Contatos</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link nav-cart-link primary-color" href="{% url 'produto:carrinho' %}">
+                    <span class="nav-cart-text mr-1">
+                        Carrinho
+                    </span>
+                    <span class="nav-cart-count mr-1">
+                        <strong>{{request.session.carrinho|length}}x</strong>
+                    </span>
+                    <span class="nav-cart-icon mr-2">
+                        <i class="bi bi-cart"></i>
+                    </span>
+                </a>
+            </li>
+          </ul>
+          
+      </div>
+
+
+      </i>
+  </div>
+</nav><!-- END NAVBAR-->

@@ -1,0 +1,87 @@
+/* PALETA DE CORES */
+
+/* BG COLOR */
+.bg-primary-color{background-color: #fff;}
+.bg-secondary-color{background-color: #ece8ea;}
+.bg-dark-color{background-color: #050505;}
+
+/* COLOR */
+.primary-color{color: #050505;}
+.secondary-color{color: #7a7a7a;}
+.white-color{color: #FFF;}
+
+/* =============== NAVBAR ===============*/
+#navbar{
+  border-bottom: 1px solid #7a7a7a;
+}
+
+#navbar a:hover{
+  color: #7a7a7a;
+}
+
+#navbar a.active{
+  border-bottom: 1px solid #050505;
+}
+
+.navbar-brand{
+  display: flex;
+}
+
+.navbar-brand img{
+  width: 40px;
+}
+
+.navbar-brand span {
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-left: 0.5em;
+}
+
+#navbar-items .navbar-nav{
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+#navbar-items .nav-item{
+  margin: 0 1em;
+}
+/* =============== END NAVBAR ===============*/
+
+
+/* =============== MINI BANNERS ===============*/
+
+#mini-banners {
+  margin-bottom: 4em;
+}
+
+#mini-banners .card {
+  padding: 2em 0.3em;
+  border-radius: 0;
+  margin-bottom: 1em;
+}
+
+
+#mini-banners .card-title {
+  margin-bottom: 1.5em;
+}
+
+#mini-banners .btn {
+  margin-top: 1.5em;
+  padding: 0.6em 1.2em;
+}
+
+.product-price-block {
+  font-size: 1.4rem;
+}
+
+.product-price {
+  font-size: 1.4rem;
+}
+
+.product-old-price {
+  text-decoration: line-through;
+  font-size: 1rem;
+}
+
+/* =============== END MINI BANNERS ===============*/

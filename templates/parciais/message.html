@@ -1,0 +1,18 @@
+<!--Messagem da view backend-->
+{% for message in messages %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    "{% if message.tags == 'success'%}"
+        var m = "{{message}}";
+        swal("Sucesso!",m,"success")
+
+    "{% elif message.tags == 'error'%}"
+        var m = "{{message}}";
+        swal("Erro!",m,"error")
+    "{% elif message.tags == 'info'%}"
+        var m = "{{message}}";
+        swal("Atenção!",m,"info")
+    "{% endif %}"
+
+</script>
+{% endfor %}

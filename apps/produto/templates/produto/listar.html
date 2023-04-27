@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load filtros %}
+
+
+{% block conteudo %}
+
+    <!--MINI BANNERS-->
+    <div class="col-12 col-md-10 offset-md-1" id="mini-banners">
+     
+        <div class="row justify-content-center">
+            <!--CARD 1-->
+            {% for produto in produtos %}
+            <div class="col-12 col-md-3 ">
+                <div class="card text-center">
+
+                   <a href="{% url 'produto:detail' produto.slug%}">
+                        <img width="230" src="{{produto.imagem.url}}" alt="{{produto.nome}}">
+                    </a>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title primary-color">{{produto.nome}}</h5>
+                        <p class="card-text secondary-color">
+                            {{produto.descricao}}
+                        </p>
+
+                        <div class="container product-price-block text-center">
+
+                            <span class="product-price">
+                               {{produto.menor_preco_variacao.preco_promocional|formata_preco}}
+                            </span>
+
+                            <span class="product-old-price text-muted">
+                                {{produto.menor_preco_variacao.preco|formata_preco}}
+                            </span>
+                         
+                          
+                           
+                            {% comment %} {% if produto.preco_marketing_promocional %}
+                            <span class="product-price">
+                                {{produto.preco_marketing_promocional|formata_preco}}
+                            </span>
+                            <span class="product-old-price text-muted">
+                                {{produto.preco_marketing|formata_preco}}
+                            </span>
+                            {% else %}
+                            <span class="product-price">
+                                {{produto.preco_marketing|formata_preco}}
+                            </span>
+                            {% endif %} {% endcomment %}
+                        </div>
+                        <a href="#" class="btn btn-dark"><i class='bi bi-cart4 white-color'></i>&nbsp;Comprar</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>  <!-- END MINI BANNERS-->  
+
+{% endblock conteudo %}
