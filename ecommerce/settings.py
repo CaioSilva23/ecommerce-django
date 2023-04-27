@@ -33,7 +33,16 @@ INSTALLED_APPS = [
     'produto',
     'pedido',
     'autenticacao',
+    "crispy_forms",
+    "crispy_bootstrap5",
+
 ]
+
+#X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# CRISPY FORMS 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-BR'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -126,3 +135,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Sessão em dias:    60s  60m  24h  1d (total 7 dias)
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
 SESSION_SAVE_EVERY_REQUEST = False
+
+
+LOGIN_REDIRECT_URL = 'produto:list'
+
+LOGIN_URL = 'autenticacao:login'
+
+LOGOUT_REDIRECT_URL = 'autenticacao:login'
