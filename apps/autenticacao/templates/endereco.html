@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Login{% endblock title %}
+
+{% block conteudo %}
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3>{{request.user.username|title}}</h3>
+        <hr>
+        <form method='POST' action='{% url "autenticacao:endereco" %}'>
+            {% csrf_token %}
+            {{form_endereco|crispy}}
+            <div class="row">
+                <div class="col">
+                    <button class='btn btn-dark btn-block' type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

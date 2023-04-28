@@ -3,6 +3,7 @@ from collections import defaultdict
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from .models import Endereco
 
 from utils import email_is_valid, strong_password
 
@@ -20,10 +21,10 @@ class RegisterForm(forms.ModelForm):
             'min_length': 'Use no mínimo 4 caracteres',
             'max_length': 'Use máximo 150 caracteres'
         },
-        help_text=(
-            'Obrigatório. Entre 4 e 150 caracteres. '
-            'Letras, números e @/./+/-/_ apenas.'
-        ),
+        # help_text=(
+        #     'Obrigatório. Entre 4 e 150 caracteres. '
+        #     'Letras, números e @/./+/-/_ apenas.'
+        # ),
         min_length=4, max_length=150
     )
 
@@ -34,28 +35,28 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'exemplo@email.com'
             }
         ),
-        required=False
+        required=True
     )
 
-    first_name = forms.CharField(
-        label='Nome',
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Ex: José'
-            }
-        ),
-        required=False
-    )
+    # first_name = forms.CharField(
+    #     label='Nome',
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             'placeholder': 'Ex: José'
+    #         }
+    #     ),
+    #     required=False
+    # )
 
-    last_name = forms.CharField(
-        label='Sobrenome',
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Ex: Beto'
-            }
-        ),
-        required=False
-    )
+    # last_name = forms.CharField(
+    #     label='Sobrenome',
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             'placeholder': 'Ex: Beto'
+    #         }
+    #     ),
+    #     required=False
+    # )
 
     password = forms.CharField(
         label='Senha',
@@ -79,8 +80,6 @@ class RegisterForm(forms.ModelForm):
         fields = [
             'username',
             'email',
-            'first_name',
-            'last_name',
             'password',
         ]
 
@@ -101,7 +100,6 @@ class RegisterForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data["email"]
         email_valid = email_is_valid(email)
-        print(email_valid)
 
         if not email_valid:
             self._my_errors['email'].append('E-mail inválido')
@@ -124,3 +122,10 @@ class LoginForm(forms.Form):
             'placeholder': 'Digite sua senha'
         })
     )
+
+
+class EnderecoForm(forms.ModelForm):
+    class Meta:
+        model = Endereco
+        fields = '__all__'
+        exclude = ('user',)

@@ -36,9 +36,12 @@ estado_choices = (
 
 
 class Endereco(models.Model):
-    estado = models.CharField(("estado"), max_length=50, \
-        choices=estado_choices)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rua = models.CharField(max_length=100)
+    numero = models.CharField(max_length=4)
+    bairro = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
+    estado = models.CharField(("estado"), max_length=50, choices=estado_choices)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 # # Create your models here.

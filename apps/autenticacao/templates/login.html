@@ -24,7 +24,7 @@
     <div class="col-md-4 mx-auto">
         <h3>Cadastre-se</h3>
         <hr>
-        <form method='POST'>
+        <form method='POST' action='{% url "autenticacao:cadastro" %}'>
             {% csrf_token %}
             {{form_register|crispy}}
             <div class="row">

@@ -1,6 +1,8 @@
 from PIL import Image
 import os
 from django.conf import settings
+import re
+from django.core.exceptions import ValidationError
 
 
 # VALIDADOR DE CPF
@@ -43,12 +45,6 @@ def resize_image(img, new_width=800):
             optimize=True,
             quality=50
         )
-
-
-
-import re
-
-from django.core.exceptions import ValidationError
 
 
 def strong_password(password):
