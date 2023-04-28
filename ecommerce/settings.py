@@ -137,8 +137,8 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
 SESSION_SAVE_EVERY_REQUEST = False
 
 
-LOGIN_REDIRECT_URL = 'produto:list'
+# LOGIN_REDIRECT_URL = 'produto:list'
 
-LOGIN_URL = 'autenticacao:login'
+# LOGIN_URL = 'autenticacao:autenticacao'
 
-LOGOUT_REDIRECT_URL = 'autenticacao:login'
+# LOGOUT_REDIRECT_URL = 'autenticacao:autenticacao'

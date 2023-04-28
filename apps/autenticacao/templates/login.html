@@ -11,9 +11,22 @@
     <div class="col-md-4 mx-auto">
         <h3>Login</h3>
         <hr>
-        <form method='POST'>
+        <form method='POST' action='{% url "autenticacao:login" %}'>
             {% csrf_token %}
             {{form|crispy}}
+            <div class="row">
+                <div class="col">
+                    <button class='btn btn-dark btn-block' type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4 mx-auto">
+        <h3>Cadastre-se</h3>
+        <hr>
+        <form method='POST'>
+            {% csrf_token %}
+            {{form_register|crispy}}
             <div class="row">
                 <div class="col">
                     <button class='btn btn-dark btn-block' type="submit">Enviar</button>
