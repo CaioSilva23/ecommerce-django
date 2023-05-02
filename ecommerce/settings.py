@@ -139,6 +139,6 @@ SESSION_SAVE_EVERY_REQUEST = False
 
 # LOGIN_REDIRECT_URL = 'produto:list'
 
-# LOGIN_URL = 'autenticacao:autenticacao'
+LOGIN_URL = 'autenticacao:login'
 
 # LOGOUT_REDIRECT_URL = 'autenticacao:autenticacao'

@@ -1,11 +1,9 @@
 from collections import defaultdict
-
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Endereco
-
-from utils import email_is_valid, strong_password
+from utils import email_is_valid, strong_password, email_exists
 
 
 class RegisterForm(forms.ModelForm):
@@ -35,28 +33,10 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'exemplo@email.com'
             }
         ),
-        required=True
+        required=True,
+        validators=[email_exists]
+        
     )
-
-    # first_name = forms.CharField(
-    #     label='Nome',
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'placeholder': 'Ex: José'
-    #         }
-    #     ),
-    #     required=False
-    # )
-
-    # last_name = forms.CharField(
-    #     label='Sobrenome',
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'placeholder': 'Ex: Beto'
-    #         }
-    #     ),
-    #     required=False
-    # )
 
     password = forms.CharField(
         label='Senha',
@@ -105,6 +85,52 @@ class RegisterForm(forms.ModelForm):
             self._my_errors['email'].append('E-mail inválido')
 
         return email
+
+
+class PerfilForm(RegisterForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    first_name = forms.CharField(
+        label='Nome',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Ex: José'
+            }
+        ),
+        required=False
+    )
+
+    last_name = forms.CharField(
+        label='Sobrenome',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Ex: Beto'
+            }
+        ),
+        required=False
+    )
+
+    email = forms.CharField(
+        label='E-mail',
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'exemplo@email.com'
+            }
+        ),
+        required=True,
+
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'password',
+            ]
 
 
 class LoginForm(forms.Form):

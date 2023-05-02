@@ -2,20 +2,22 @@
 {% load crispy_forms_tags %}
 
 
-{% block title %}Login{% endblock title %}
+{% block title %}Cadastre-se{% endblock title %}
 
 {% block conteudo %}
 
 
 <div class="row">
     <div class="col-md-4 mx-auto">
-        <h3>Login</h3>
+        <h3>Cadastre-se</h3>
         <hr>
-        <form method='POST' action='{% url "autenticacao:login" %}'>
+        <form method='POST' action='{% url "autenticacao:cadastro" %}'>
             {% csrf_token %}
             {{form|crispy}}
             <div class="row mx-auto">
-                <button class='btn btn-dark d-block' type="submit">Entrar</button>
+          
+                    <button class='btn btn-dark btn-block' type="submit">Cadastre-se</button>
+       
             </div>
         </form>
     </div>

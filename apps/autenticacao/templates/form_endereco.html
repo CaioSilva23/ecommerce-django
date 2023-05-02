@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Endereço{% endblock title %}
+
+{% block conteudo %}
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3>Novo endereço</h3>
+        <hr>
+
+      <form method='POST'>
+            {% csrf_token %}
+            {{form|crispy}}
+            <div class='row'>
+                <div class="col">
+                    <button class='btn btn-dark d-block' type="submit">Enviar</button>
+                </div>
+                <div class="col">
+                    <a href='{% url "autenticacao:endereco" %}' class='btn btn-secondary d-block'>Voltar</a>
+                </div>
+                </div>
+        </form> 
+       
+    </div>
+   
+</div>
+
+
+{% endblock conteudo %}

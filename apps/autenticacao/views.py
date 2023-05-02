@@ -1,26 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
-from .forms import RegisterForm, LoginForm, EnderecoForm
+from .forms import RegisterForm, LoginForm, EnderecoForm,PerfilForm
 from django.contrib.auth import authenticate, login, logout
-from django.http import Http404
 from django.urls import reverse
 from django.contrib import messages
 from .models import Endereco as EnderecoModel
-
-
-class Autenticacao(View):
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect(reverse('produto:list'))
-        else:
-            form = LoginForm()
-            form_register = RegisterForm()
-            ctx = {
-                'form_register': form_register,
-                'form': form
-
-            }
-            return render(self.request, 'login.html', context=ctx)
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class Login(View):
@@ -38,67 +23,108 @@ class Login(View):
         else:
             messages.error(self.request, 'Credenciais inválidas')
 
-        return redirect(reverse('autenticacao:autenticacao'))
+        return redirect(reverse('autenticacao:login'))
 
-    def get(self):
-        raise Http404()
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            form = LoginForm()
+            return render(self.request, 'login.html', {"form": form})
+        else:
+            return redirect(reverse('produto:list'))
 
 
 class Cadastro(View):
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            form = RegisterForm()
+            return render(self.request, 'register.html', {"form": form})
+        else:
+            return redirect(reverse('produto:list'))
 
     def post(self, *args, **kwargs):
-        data = self.request.POST or None
-        instance = None if not self.request.user.is_authenticated else self.request.user
-
-        form_cadastro = RegisterForm(data=data, instance=instance)
-        if form_cadastro.is_valid():
-            user = form_cadastro.save(commit=False)
+        form = RegisterForm(self.request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
             user.set_password(user.password)
             user.save()
-            login(self.request, user=user)
-            if not instance:
-                messages.success(self.request, 'Cadastro realizado com sucesso.')
-            else:
-                messages.success(self.request, 'Perfil editado com sucesso')
-                return redirect(reverse('autenticacao:perfil'))
-            return redirect(reverse('produto:list'))
+            messages.success(self.request, 'Cadastro realizado com sucesso.')
+            return redirect(reverse('autenticacao:login'))
         else:
-            form = LoginForm()
-            messages.error(self.request, 'Dados inválidos!')
-            return render(self.request, 'login.html', {"form_register": form_cadastro,'form': form})
+            return render(self.request, 'register.html', {'form': form})
 
 
 class Logout(View):
     def get(self, *args, **kwargs):
         messages.success(self.request, 'Logout sucedido')
         logout(self.request)
-        return redirect(reverse('autenticacao:autenticacao'))
+        return redirect(reverse('autenticacao:login'))
 
 
-class Perfil(View):
+class Perfil(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
-        form = RegisterForm(instance=user)
+        form = PerfilForm(instance=user)
         return render(self.request, 'perfil.html', {'form': form})
 
-
-class Endereco(View):
-
-    
-    def get(self, *args, **kwargs):
-        endereco = EnderecoModel.objects.get(user=self.request.user)
-        form_endereco = EnderecoForm(instance=endereco)
-        return render(self.request, 'endereco.html', {'form_endereco': form_endereco})
-    
+    # UPDATE PERFIL DE USUÁRIO
     def post(self, *args, **kwargs):
-        endereco = EnderecoModel.objects.get(user=self.request.user)
-        form_endereco = EnderecoForm(data=self.request.POST, instance=endereco)
-        if form_endereco.is_valid():
-            endereco = form_endereco.save(commit=False)
+        form = PerfilForm(data=self.request.POST, instance=self.request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(user.password)
+            user.save()
+            login(self.request, user=user)
+            messages.success(self.request, 'Perfil editado com sucesso')
+            return redirect(reverse('autenticacao:perfil'))
+        else:
+            messages.error(self.request, 'Erro ao editar o perfil')
+            return render(self.request, 'perfil.html', {'form': form})
+
+
+class EnderecoList(View):
+    def get(self, *args, **kwargs):
+        enderecos = EnderecoModel.objects.filter(user=self.request.user)
+        return render(self.request, 'endereco.html', {'enderecos': enderecos})
+
+
+class UpdateEndereco(View):
+    def get(self, *args, **kwargs):
+        endereco = get_object_or_404(EnderecoModel, id=kwargs['pk'])
+        form = EnderecoForm(instance=endereco)
+        return render(self.request, 'form_endereco.html', {'form':form})
+
+    def post(self, *args, **kwargs):
+        endereco = get_object_or_404(EnderecoModel, id=kwargs['pk'])
+        form = EnderecoForm(self.request.POST, instance=endereco)
+        if form.is_valid():
+            form.save()
+            messages.success(self.request, 'Endereço atualizado com sucesso.')
+            return redirect(reverse('autenticacao:endereco'))
+        else:
+            messages.error(self.request, 'Erro ao atualizar o seu endereço')
+            return render(self.request, 'form_endereco.html', {'form': form})
+
+
+class NovoEndereco(View):
+    def get(self, *args, **kwargs):
+        form = EnderecoForm()
+        return render(self.request, 'form_endereco.html', {'form': form})
+
+    def post(self, *args, **kwargs):
+        form = EnderecoForm(self.request.POST)
+        if form.is_valid():
+            endereco = form.save(commit=False)
             endereco.user = self.request.user
             endereco.save()
-            messages.success(self.request, 'Endereço editado com sucesso!')
+            messages.success(self.request, 'Endereço salvo com sucesso.')
+            return redirect(reverse('autenticacao:endereco'))
         else:
-            messages.error(self.request, 'Dados inválidos, tente novamente')
-        return redirect(reverse('autenticacao:endereco'))
+            messages.error(self.request, 'Dados inválidos')
+            return render(self.request, 'form_endereco.html', {'form': form})
 
+
+class DeleteEndereco(View):
+    def get(self, *args, **kwargs):
+        endereco = get_object_or_404(EnderecoModel, id=kwargs['pk'])
+        endereco.delete()
+        return redirect(reverse('autenticacao:endereco'))

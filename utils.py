@@ -47,6 +47,16 @@ def resize_image(img, new_width=800):
         )
 
 
+from django.contrib.auth.models import User
+
+def email_exists(email):
+    user_email = User.objects.filter(email=email)
+    if user_email.exists():
+        raise ValidationError((
+            'Este e-mail já existe'
+        ))
+
+
 def strong_password(password):
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
 

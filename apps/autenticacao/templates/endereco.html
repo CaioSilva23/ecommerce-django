@@ -9,9 +9,28 @@
 
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <h3>{{request.user.username|title}}</h3>
+        <h3>Endereços - {{request.user.username|title}}</h3>
+        <div class="col">
+            <a href='{% url "autenticacao:novo_endereco" %}' class='btn btn-dark btn-block' type="submit">Novo endereço</a>
+        </div>
         <hr>
-        <form method='POST' action='{% url "autenticacao:endereco" %}'>
+        <div class='row'>
+            {% for endereco in enderecos %}
+            <div class='col-6'>
+                <div class="card mb-2" >
+                    <div class="card-body">
+                    <h5 class="card-title">{{endereco.rua}}, n°{{endereco.numero}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro}}, {{endereco.cidade}} - {{endereco.estado}}</h6>
+                    <p class="card-text">{{request.user.username|title}}</p>
+                    <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-warning">Editar</a>
+                    <a href="{% url 'autenticacao:delete_endereco' endereco.id%}" class="card-link btn btn-danger">Deletar</a>
+                    </div>
+                </div>
+            </div>
+              {% endfor %}
+        </div>
+      
+        {% comment %} <form method='POST' action='{% url "autenticacao:endereco" %}'>
             {% csrf_token %}
             {{form_endereco|crispy}}
             <div class="row">
@@ -19,7 +38,7 @@
                     <button class='btn btn-dark btn-block' type="submit">Enviar</button>
                 </div>
             </div>
-        </form>
+        </form> {% endcomment %}
     </div>
 </div>
 
