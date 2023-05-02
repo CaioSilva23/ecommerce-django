@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
-from .forms import RegisterForm, LoginForm, EnderecoForm,PerfilForm
+from .forms import RegisterForm, LoginForm, EnderecoForm, PerfilForm
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
