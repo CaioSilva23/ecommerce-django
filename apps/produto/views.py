@@ -4,6 +4,7 @@ from django.views import View
 from produto.models import Produto, Variacao
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 # from pprint import pprint
 
 
