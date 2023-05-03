@@ -3,8 +3,8 @@
   <div class="container py-3">
 
       <!--LOGO-->
-      <a href="{% url 'produto:list' %}" class="navbar-brand">
-        <i class='bi bi-bank'></i>
+      <a href="{% url 'produto:list' %}" class="navbar-brand flex-grow-1">
+        <i style='font-size: 20px;' class='bi bi-lightning-charge-fill'></i>
         
           {% comment %} <img src="img/imovi-icon.png" alt="imovi"> {% endcomment %}
           <span>TechStore</span>
@@ -29,7 +29,7 @@
                   <a href="#" class="nav-link primary-color">Pedidos</a>
               </li>
               <li class="nav-item">
-                  <a href="{% url 'autenticacao:perfil' %}" class="nav-link primary-color">Perfil</a>
+                  <a href="{% url 'autenticacao:update_perfil' request.user.pk%}" class="nav-link primary-color">Perfil</a>
               </li>
               <li class="nav-item">
                   <a href="{% url 'autenticacao:logout' %}" class="nav-link primary-color">Sair</a>

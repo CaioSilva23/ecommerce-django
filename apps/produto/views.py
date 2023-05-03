@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -19,20 +20,7 @@ class DetailProducts(DetailView):
     template_name = 'produto/detail.html'
     context_object_name = 'produto'
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(*args, **kwargs)
-
-        carrinho = self.request.session.get('carrinho')
-
-        if not carrinho:
-            qtd_carrinho = 0
-        else:
-            qtd_carrinho = len(carrinho)
-
-        ctx.update({'qtd_carrinho': qtd_carrinho})
-        return ctx
-
-
+ 
 class AddAoCarrinho(View):
     def get(self, *args, **kwargs):
 

@@ -41,6 +41,7 @@ class Endereco(models.Model):
     bairro = models.CharField(max_length=50)
     cidade = models.CharField(max_length=50)
     estado = models.CharField(("estado"), max_length=50, choices=estado_choices)
+    complemento = models.CharField(max_length=100, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

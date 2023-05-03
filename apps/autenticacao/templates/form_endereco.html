@@ -11,18 +11,41 @@
     <div class="col-md-6 mx-auto">
         <h3>Novo endereço</h3>
         <hr>
+        
+        <form method='POST' class="row g-3 "> {% csrf_token %}
+            <div class="col-md-6">
+            {{form.rua|as_crispy_field}}
+            </div>
 
-      <form method='POST'>
-            {% csrf_token %}
-            {{form|crispy}}
-            <div class='row'>
-                <div class="col">
-                    <button class='btn btn-dark d-block' type="submit">Enviar</button>
+            <div class="col-md-2">
+                {{form.numero|as_crispy_field}}
+            </div>
+
+            <div class="col-md-4">
+            {{form.bairro|as_crispy_field}}
+            </div>
+
+            <div class="col-md-4">
+                {{form.complemento|as_crispy_field}}
                 </div>
-                <div class="col">
-                    <a href='{% url "autenticacao:endereco" %}' class='btn btn-secondary d-block'>Voltar</a>
-                </div>
-                </div>
+
+            <div class="col-md-4">
+                {{form.cidade|as_crispy_field}}
+            </div>
+
+
+            <div class="col-md-4">
+                {{form.estado|as_crispy_field}}
+            </div>
+            
+            <div class="col-6">
+                <button class='btn btn-secondary  d-block' type="submit">Enviar</button>
+            </div>
+            <div class="col-6">
+                <a href='{% url "autenticacao:endereco" %}' class='btn btn-secondary d-block'>Voltar</a>
+            </div>
+      
+       
         </form> 
        
     </div>

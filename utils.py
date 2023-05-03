@@ -57,6 +57,11 @@ def email_exists(email):
         ))
 
 
+def confirm_password(password):
+    user = User.objects.filter(password=password)
+
+
+
 def strong_password(password):
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
 

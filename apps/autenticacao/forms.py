@@ -4,6 +4,21 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Endereco
 from utils import email_is_valid, strong_password, email_exists
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+
+class RegisterForms(UserCreationForm):
+    email = forms.EmailField(max_length=100)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+
+class UpdateForms(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']
 
 
 class RegisterForm(forms.ModelForm):
@@ -133,21 +148,21 @@ class PerfilForm(RegisterForm):
             ]
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(
-        label='Usuário',
-        widget=forms.TextInput({
-            'class': 'span-2',
-            'placeholder': 'Digite seu usuário'
-        })
-    )
-    password = forms.CharField(
-        label='Senha',
-        widget=forms.PasswordInput({
-            'class': 'span-2',
-            'placeholder': 'Digite sua senha'
-        })
-    )
+# class LoginForm(forms.Form):
+#     username = forms.CharField(
+#         label='Usuário',
+#         widget=forms.TextInput({
+#             'class': 'span-2',
+#             'placeholder': 'Digite seu usuário'
+#         })
+#     )
+#     password = forms.CharField(
+#         label='Senha',
+#         widget=forms.PasswordInput({
+#             'class': 'span-2',
+#             'placeholder': 'Digite sua senha'
+#         })
+#     )
 
 
 class EnderecoForm(forms.ModelForm):

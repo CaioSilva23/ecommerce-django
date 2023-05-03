@@ -2,28 +2,34 @@
 {% load crispy_forms_tags %}
 
 
-{% block title %}Login{% endblock title %}
+{% block title %}Endereço - {{request.user|title}}{% endblock title %}
 
 {% block conteudo %}
 
-
-<div class="row">
-    <div class="col-md-6 mx-auto">
+ 
+<div class="row ">
+    <div class="col-md-8 mx-auto">
         <h3>Endereços - {{request.user.username|title}}</h3>
         <div class="col">
             <a href='{% url "autenticacao:novo_endereco" %}' class='btn btn-dark btn-block' type="submit">Novo endereço</a>
         </div>
         <hr>
-        <div class='row'>
+        <div class='row '>
             {% for endereco in enderecos %}
             <div class='col-6'>
-                <div class="card mb-2" >
-                    <div class="card-body">
-                    <h5 class="card-title">{{endereco.rua}}, n°{{endereco.numero}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro}}, {{endereco.cidade}} - {{endereco.estado}}</h6>
-                    <p class="card-text">{{request.user.username|title}}</p>
-                    <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-warning">Editar</a>
-                    <a href="{% url 'autenticacao:delete_endereco' endereco.id%}" class="card-link btn btn-danger">Deletar</a>
+                <div class="card mb-2 " >
+                    <div class="card-body text-center ">
+                        <h5 class="card-title">{{endereco.rua|title}}, n°{{endereco.numero}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro|title}}, {{endereco.cidade|title}} - {{endereco.estado}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">{{endereco.complemento|title}}</h6>
+                        <p class="card-text">{{request.user.username|title}}</p>
+                        <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-warning">Editar</a>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{endereco.id}}">
+                            DELETAR 
+                        </button>
+                        {% comment %} <a href="{% url 'autenticacao:delete_endereco' endereco.id%}" class="card-link btn btn-danger">Deletar</a> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -43,6 +49,33 @@
 </div>
 
 
+{% for i in enderecos %}
 
 
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja deletar o endereço abaixo?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="card-title">{{i.rua|title}}, n°{{i.numero}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.bairro|title}}, {{i.cidade|title}} - {{i.estado}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.complemento|title}}</h6>
+        </div>
+        <div  class="modal-footer">
+         <form method='POST' action='{% url "autenticacao:delete_endereco"  i.id%}'>{% csrf_token %}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Sim</button>
+            {% comment %} <a href="{% url 'autenticacao:delete_endereco' i.id%}" class="card-link btn btn-danger">Sim</a> {% endcomment %}
+            
+         </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 {% endblock %}

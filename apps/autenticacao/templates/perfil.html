@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 
-{% block title %}Login{% endblock title %}
+{% block title %}{{request.user|title}}{% endblock title %}
 
 {% block conteudo %}
 
@@ -11,7 +11,7 @@
     <div class="col-md-6 mx-auto">
         <h3>{{request.user.username|title}}</h3> <a class='btn btn-dark' href="{% url 'autenticacao:endereco' %}">Endereços</a>
         <hr>
-        <form method='POST' action='{% url "autenticacao:perfil" %}'>
+        <form method='POST'>
             {% csrf_token %}
             {{form|crispy}}
             <div class="row">
