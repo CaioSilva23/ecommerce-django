@@ -2,18 +2,22 @@ from typing import Any, Dict
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
-from produto.models import Produto, Variacao
+from produto.models import Produto, Variacao, Categoria
 from django.contrib import messages
 from django.urls import reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 # from pprint import pprint
 
 
 class ListProduts(ListView):
     model = Produto
-    template_name = 'produto/listar.html'
+    template_name = 'produto/index.html'
     context_object_name = 'produtos'
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({"categorias": Categoria.objects.all()})
+        return ctx
 
 class DetailProducts(DetailView):
     model = Produto

@@ -3,16 +3,21 @@ from utils import resize_image
 from django.utils.text import slugify
 
 
+class Categoria(models.Model):
+    nome = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.nome
+    
+    class Meta:
+        verbose_name_plural = 'Categorias'
+
+
 class Produto(models.Model):
-
-    # tipo_choices = (
-    #     ('V', 'Variável'),
-    #     ('S', 'Simples')
-    #     )
-
     nome = models.CharField(max_length=100)
     descricao = models.TextField(max_length=255)
     descricao_longa = models.TextField()
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     imagem = models.ImageField(
                             upload_to='produto_imagens/%Y/%m',
                             blank=True,

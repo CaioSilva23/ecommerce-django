@@ -1,64 +1,30 @@
- <!--NAVBAR-->
- <nav class="navbar navbar-expand-lg bg-primary-color" id="navbar">
-  <div class="container py-3">
-
-      <!--LOGO-->
-      <a href="{% url 'produto:list' %}" class="navbar-brand flex-grow-1">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+  <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href='\'>
         <i style='font-size: 20px;' class='bi bi-lightning-charge-fill'></i>
-        
-          {% comment %} <img src="img/imovi-icon.png" alt="imovi"> {% endcomment %}
-          <span>TechStore</span>
-          
-      </a>
-
-      <!--LINKS-->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-items"
-          aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation">
-
-          <i class="bi bi-list"></i>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbar-items">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a href="/" class="nav-link active primary-color" aria-current="page">Home</a>
-            </li>
-            {% if request.user.is_authenticated %}
-
-              <li class="nav-item">
-                  <a href="#" class="nav-link primary-color">Pedidos</a>
-              </li>
-              <li class="nav-item">
-                  <a href="{% url 'autenticacao:update_perfil' request.user.pk%}" class="nav-link primary-color">Perfil</a>
-              </li>
-              <li class="nav-item">
-                  <a href="{% url 'autenticacao:logout' %}" class="nav-link primary-color">Sair</a>
-              </li>
+        TechStore
+    </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+             
+              {% if request.user.is_authenticated %}
+              <li class="nav-item"><a class="nav-link active" href="/">Pedidos</a></li>
+              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:update_perfil' request.user.pk%}">Perfil</a></li>
+              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:logout' %}">Logout</a></li>
+              {% else %}
+              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:login' %}">Login</a></li>
+              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:cadastro' %}">Sign Up</a></li>
+              {% endif %}
               
-              
-            {% else %}
-              <li class="nav-item">
-                <a href="{% url 'autenticacao:login' %}" class="nav-link primary-color">Login</a>
-                </li>
-              <li class="nav-item">
-                <a href="{% url 'autenticacao:cadastro' %}" class="nav-link primary-color">Sign up</a>
-                </li>
-            {% endif %}
-              <li class="nav-item">
-                <a class="nav-link nav-cart-link primary-color" href="{% url 'produto:carrinho' %}">
-                    <span class="nav-cart-text mr-1">
-                        Carrinho
-                    </span>
-                    <span class="nav-cart-count mr-1">
-                        <strong>{{request.session.carrinho|length}}x</strong>
-                    </span>
-                    <span class="nav-cart-icon mr-2">
-                        <i class="bi bi-cart"></i>
-                    </span>
-                </a>
-            </li>
           </ul>
+          <a href='{% url "produto:carrinho" %}' class="d-flex text-decoration-none">
+              <button class="btn btn-outline-light" type="submit">
+                  <i class="bi-cart-fill me-1"></i>
+                  Cart
+                  <span class="badge bg-dark text-white ms-1 rounded-pill">{{request.session.carrinho|length}}x</span>
+              </button>
+            </a>
       </div>
-    
   </div>
-</nav><!-- END NAVBAR-->
+</nav>

@@ -1,36 +1,40 @@
  <!--NAVBAR-->
- <nav class="navbar navbar-expand-lg bg-secondary-color1" id="navbar">
+ <nav class="navbar navbar-expand-lg navbar-ligth bg-ligth " id="navbar">
     <div class="container ">
   
         <!--LINKS-->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-new"
-            aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation">
-  
-            <i class="bi bi-list"></i>
-        </button>
-  
-        <div class="collapse navbar-collapse align-items-center justify-content-center" id="navbar-new">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " >
-              <li class="nav-item">
-                  <a href="/" class="nav-link  white-color" aria-current="page">Categorias</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/">Todos os produtos</a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      {% for categoria in categorias %}
+                      <li><a class="dropdown-item" href="#">{{categoria}}</a></li>
+                      {% endfor %}
+
+                  </ul>
               </li>
-              <li class="nav-item">
-                <a href="/" class="nav-link  white-color" aria-current="page">Promoções</a>
-            </li>
-            <li class="nav-item">
-                <a href="/" class="nav-link  white-color" aria-current="page">Lançamentos</a>
-            </li>
-            </ul>     
+                 <li class="nav-item">
+                    <a href="/" class="nav-link  " aria-current="page">Promoções</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/" class="nav-link " aria-current="page">Lançamentos</a>
+                </li>
+                 </ul>
+                   
             <form method='post' class='d-flex' style='margin-right: 25px;'>{% csrf_token %}
                 <div class='input-group input-group-sm'>
                     <input class='form-control' type="search" id='search' placeholder='Digite sua pesquisa...' aria-label='Search'>
                     <a href="#" class='btn btn-secondary btn-sm'> <i class='bi bi-search'></i></a>
                 </div>
             </form>
-
-           
         </div>
-       
+
     </div>
   </nav><!-- END NAVBAR-->
   
