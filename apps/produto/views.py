@@ -19,12 +19,13 @@ class ListProduts(ListView):
         ctx.update({"categorias": Categoria.objects.all()})
         return ctx
 
+
 class DetailProducts(DetailView):
     model = Produto
     template_name = 'produto/detail.html'
     context_object_name = 'produto'
 
- 
+
 class AddAoCarrinho(View):
     def get(self, *args, **kwargs):
 
