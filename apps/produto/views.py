@@ -13,10 +13,16 @@ class ListProduts(ListView):
     model = Produto
     template_name = 'produto/index.html'
     context_object_name = 'produtos'
+    paginate_by = 8
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
         ctx.update({"categorias": Categoria.objects.all()})
+
+        nome = self.request.GET.get('nome')
+        if nome:
+            produtos = Produto.objects.filter(nome__icontains=nome)
+            ctx['produtos'] = produtos
         return ctx
 
 
