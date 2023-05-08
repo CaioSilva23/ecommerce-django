@@ -8,12 +8,15 @@
 
 
 <div class="row">
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-6 mx-auto box">
         <h3>Novo endereço</h3>
         <hr>
         
-        <form method='POST' class="row g-3 "> {% csrf_token %}
-            <div class="col-md-6">
+        <form method='POST' class="row g-3 " > {% csrf_token %}
+            <div class="col-md-2">
+                {{form.cep|as_crispy_field}}
+            </div>
+            <div class="col-md-5">
             {{form.rua|as_crispy_field}}
             </div>
 
@@ -21,7 +24,7 @@
                 {{form.numero|as_crispy_field}}
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
             {{form.bairro|as_crispy_field}}
             </div>
 
@@ -51,6 +54,5 @@
     </div>
    
 </div>
-
 
 {% endblock conteudo %}

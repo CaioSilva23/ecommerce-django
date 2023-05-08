@@ -3,13 +3,11 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import EnderecoForm, RegisterForms, UpdateForms
-from django.contrib.auth import login
+from .forms import EnderecoForm, RegisterForms, DadosUsuarioForm
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import Endereco
+from .models import Endereco, DadosUsuario
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 
 
 class Cadastro(CreateView):
@@ -22,19 +20,14 @@ class Cadastro(CreateView):
         return super().form_valid(form)
 
 
-class UpdatePerfil(LoginRequiredMixin, UpdateView):
+class DadosUsuario(LoginRequiredMixin, UpdateView):
     template_name = 'perfil.html'
-    model = User
-    form_class = UpdateForms
-
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        user = form.save(commit=False)
-        login(self.request, user=user)
-        messages.success(self.request, 'Perfil editado com sucesso!')
-        return super().form_valid(form)
+    model = DadosUsuario
+    form_class = DadosUsuarioForm
 
     def get_success_url(self) -> str:
-        return reverse_lazy('autenticacao:update_perfil', kwargs={'pk': self.get_object().pk})
+        messages.success(self.request, 'Perfil editado com sucesso!')
+        return reverse_lazy('autenticacao:dados', kwargs={'pk': self.get_object().pk})
 
 
 class EnderecoList(LoginRequiredMixin, ListView):

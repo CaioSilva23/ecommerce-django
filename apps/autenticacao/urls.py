@@ -11,7 +11,7 @@ urlpatterns = [
 
     #  LOGOUT AUTH DJANGO
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('update_perfil/<int:pk>/', views.UpdatePerfil.as_view(), name='update_perfil'),
+    path('dados/<int:pk>/', views.DadosUsuario.as_view(), name='dados'),
 
 
     path('endereco/', views.EnderecoList.as_view(), name='endereco'),

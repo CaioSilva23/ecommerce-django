@@ -4,6 +4,7 @@
 
 {% block title %}{{request.user|title}}{% endblock title %}
 
+
 {% block conteudo %}
 
 
@@ -23,7 +24,21 @@
     </div>
 </div>
 
+<!--JQUARY JS-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+<script>
 
 
+
+$(document).ready(function(){
+    $("#id_cpf").inputmask("999.999.999-99", {"onincomplete": function(){
+        return false;
+    }});
+    $("#id_telefone").inputmask("(99) 99999-9999", {"onincomplete": function(){
+        return false;
+    }});
+});
+</script>
 
 {% endblock %}

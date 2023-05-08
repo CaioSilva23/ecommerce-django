@@ -3,8 +3,7 @@ from typing import Any, Dict
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Endereco
-from utils import email_is_valid, strong_password, email_exists
+from .models import Endereco, DadosUsuario
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -22,11 +21,11 @@ class RegisterForms(UserCreationForm):
             raise ValidationError('Este email já existe')
 
 
-class UpdateForms(forms.ModelForm):
+class DadosUsuarioForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'username', 'email']
-
+        model = DadosUsuario
+        fields = "__all__"
+        exclude = ('user',)
 
 
 class EnderecoForm(forms.ModelForm):
