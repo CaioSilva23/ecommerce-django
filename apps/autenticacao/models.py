@@ -36,7 +36,7 @@ estado_choices = (
 
 
 class Endereco(models.Model):
-    cep = models.CharField(max_length=8)
+    cep = models.CharField(max_length=9)
     rua = models.CharField(max_length=100)
     numero = models.CharField(max_length=4)
     bairro = models.CharField(max_length=50)

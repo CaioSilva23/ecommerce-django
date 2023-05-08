@@ -13,31 +13,31 @@
         <hr>
         
         <form method='POST' class="row g-3 " > {% csrf_token %}
-            <div class="col-md-2">
+            <div class="col-md-12">
                 {{form.cep|as_crispy_field}}
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
             {{form.rua|as_crispy_field}}
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-6">
                 {{form.numero|as_crispy_field}}
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-6">
             {{form.bairro|as_crispy_field}}
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{form.complemento|as_crispy_field}}
                 </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{form.cidade|as_crispy_field}}
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{form.estado|as_crispy_field}}
             </div>
             
@@ -54,5 +54,16 @@
     </div>
    
 </div>
+
+<!--JQUARY JS-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+
+<script>
+    $(document).ready(function(){
+        $("#id_cep").inputmask("99999-999", {"onincomplete": function(){
+        }});
+    });
+</script>
 
 {% endblock conteudo %}

@@ -35,24 +35,31 @@ const uf = document.querySelector("#id_estado")
 
 cep.addEventListener('focusout',async () => {
 
-    const onlyNumbers = /^[0-9]+$/;
-    const cepValid = /^[0-9]{8}$/;
+    
+    const cepValid = /^\d{5}-\d{3}$/;
 
-    if (!onlyNumbers.test(cep.value) || !cepValid.test(cep.value)){
+    if (!cepValid.test(cep.value)){
         swal('Opss !', "Cep inválido!")
     }
 
   const response = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`); 
 
-  if (!response.ok){
-    swal('Opss !', 'Cep não encontrado, tente novamente!')
-  }
-
   const responseCep = await response.json()
-  rua.value = responseCep.logradouro;
-  bairro.value = responseCep.bairro;
-  cidade.value = responseCep.localidade;
-  complemento.value = responseCep.complemento;
-  uf.value = responseCep.uf;
+
+  if (!responseCep.logradouro){
+    swal('Opss !', 'Cep não encontrado, tente novamente!')
+
+  }else{
+    rua.value = responseCep.logradouro;
+    bairro.value = responseCep.bairro;
+    cidade.value = responseCep.localidade;
+    complemento.value = responseCep.complemento;
+    uf.value = responseCep.uf;
+    
+  }
+ 
+ 
+
   
+ 
 })
