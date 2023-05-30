@@ -12,7 +12,10 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">TechStore</h1>
+            <h1 class="display-4 fw-bolder">
+                <i class='bi bi-lightning-charge-fill'></i>
+                TechStore
+            </h1>
             <p class="lead fw-normal text-white-50 mb-0">Os melhores preços, você só encontra aqui!</p>
         </div>
     </div>
@@ -52,11 +55,17 @@
                                 <span class="product-old-price text-muted">
                                     {{produto.menor_preco_variacao.preco|formata_preco}}
                                 </span> 
+
+                                {% if produto.lancamento %}
+                                <span class="badge text-bg-primary">Lançamento</span>
+                                {% endif %}
                         </div>
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'produto:detail' produto.slug%}">COMPRAR</a></div>
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="{% url 'produto:detail' produto.slug%}">COMPRAR</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,4 +107,7 @@
     
     </ul>
 </section>
+
+
+  
 {% endblock listagem %} 

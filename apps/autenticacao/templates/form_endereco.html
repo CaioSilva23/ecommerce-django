@@ -8,48 +8,55 @@
 
 
 <div class="row">
-    <div class="col-md-6 mx-auto box">
+    <div class="col-md-6 mx-auto">
         <h3>Novo endereço</h3>
         <hr>
+        <div class="row">
+            <div class="col-md-12 border rounded-3 p-3" >
+                <form method='POST' class="row g-3 " > {% csrf_token %}
+                    <div class="col-md-12">
+                        {{form.cep|as_crispy_field}}
+                    </div>
+                    <div class="col-md-6">
+                    {{form.rua|as_crispy_field}}
+                    </div>
         
-        <form method='POST' class="row g-3 " > {% csrf_token %}
-            <div class="col-md-12">
-                {{form.cep|as_crispy_field}}
+                    <div class="col-md-6">
+                        {{form.numero|as_crispy_field}}
+                    </div>
+        
+                    <div class="col-md-6">
+                    {{form.bairro|as_crispy_field}}
+                    </div>
+        
+                    <div class="col-md-6">
+                        {{form.complemento|as_crispy_field}}
+                    </div>
+        
+                    <div class="col-md-6">
+                        {{form.cidade|as_crispy_field}}
+                    </div>
+        
+        
+                    <div class="col-md-6">
+                        {{form.estado|as_crispy_field}}
+                    </div>
+                    <div class="col-md-12">
+                        {{form.padrao|as_crispy_field}}
+                    </div>
+                    
+                    <div class="col-6">
+                        <button class='btn btn-secondary  d-block' type="submit">Enviar</button>
+                    </div>
+                    <div class="col-6">
+                        <a href='{% url "autenticacao:endereco" %}' class='btn btn-secondary d-block'>Voltar</a>
+                    </div>
+               
+                </form> 
             </div>
-            <div class="col-md-6">
-            {{form.rua|as_crispy_field}}
-            </div>
-
-            <div class="col-md-6">
-                {{form.numero|as_crispy_field}}
-            </div>
-
-            <div class="col-md-6">
-            {{form.bairro|as_crispy_field}}
-            </div>
-
-            <div class="col-md-6">
-                {{form.complemento|as_crispy_field}}
-                </div>
-
-            <div class="col-md-6">
-                {{form.cidade|as_crispy_field}}
-            </div>
-
-
-            <div class="col-md-6">
-                {{form.estado|as_crispy_field}}
-            </div>
-            
-            <div class="col-6">
-                <button class='btn btn-secondary  d-block' type="submit">Enviar</button>
-            </div>
-            <div class="col-6">
-                <a href='{% url "autenticacao:endereco" %}' class='btn btn-secondary d-block'>Voltar</a>
-            </div>
-      
+        </div>
+        
        
-        </form> 
        
     </div>
    
@@ -61,8 +68,9 @@
 
 <script>
     $(document).ready(function(){
-        $("#id_cep").inputmask("99999-999", {"onincomplete": function(){
-        }});
+        $("#id_cep").inputmask("99999-999", {"onincomplete": function(){}});
+        
+        
     });
 </script>
 

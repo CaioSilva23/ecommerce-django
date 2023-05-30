@@ -18,4 +18,6 @@ urlpatterns = [
     path('novo_endereco/', views.NovoEndereco.as_view(), name='novo_endereco'),
     path('delete_endereco/<int:pk>/', views.DeleteEndereco.as_view(), name='delete_endereco'),
     path('update_endereco/<int:pk>/', views.UpdateEndereco.as_view(), name='update_endereco'),
+
+    path('endereco_padrao/<int:id>/', views.endereco_padrao, name='endereco_padrao'),
 ]

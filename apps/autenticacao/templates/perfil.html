@@ -7,20 +7,36 @@
 
 {% block conteudo %}
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="p-3 bg-dark bg-opacity-10 border border-dark rounded-3">
+            <h3 class='bb'>Seus dados</h3>
+        </div>
+        <hr>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-md-6 mx-auto">
-        <h3>{{request.user.username|title}}</h3> <a class='btn btn-dark' href="{% url 'autenticacao:endereco' %}">Endereços</a>
-        <hr>
-        <form method='POST'>
-            {% csrf_token %}
-            {{form|crispy}}
-            <div class="row">
-                <div class="col">
-                    <button class='btn btn-dark btn-block' type="submit">Enviar</button>
+    <div class="col-md-3 mx-auto">
+    
+        {% include 'parciais/siderbarperfil.html' %}
+      
+    </div>
+
+    <div class="col-md-9 mx-auto">
+        <div class="border rounded-4 p-4">
+            
+            <form method='POST'>
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="row">
+                    <div class="col">
+                        <button class='btn btn-dark btn-block' type="submit">Enviar</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        
     </div>
 </div>
 
@@ -39,6 +55,10 @@
         }});
     
         $("#id_cep").inputmask("00000-000", {"onincomplete": function(){
+            return false;
+        }});
+
+        $("#id_nascimento").inputmask("99/99/9999", {"onincomplete": function(){
             return false;
         }});
     });

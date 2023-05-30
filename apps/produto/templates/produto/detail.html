@@ -4,7 +4,7 @@
 
 {% block conteudo %}
 
-<div class="row">
+<div class="row mt-5">
     <div class="col-lg">
         <div class="row no-gutters">
             <div class="col-lg-12">
@@ -26,7 +26,9 @@
                      {{produto.menor_preco_variacao.preco|formata_preco}}
                  </span>
               
-           
+                 {% if produto.lancamento %}
+                 <span class="badge text-bg-primary">Lançamento</span>
+                 {% endif %}
             </p>
 
             <form action="{% url 'produto:add_carrinho' %}" id="form-add-to-cart">

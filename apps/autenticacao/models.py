@@ -43,6 +43,7 @@ class Endereco(models.Model):
     cidade = models.CharField(max_length=50)
     estado = models.CharField(("estado"), max_length=50, choices=estado_choices)
     complemento = models.CharField(max_length=100, null=True, blank=True)
+    padrao = models.BooleanField(verbose_name='Endereço padrão', default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -54,15 +55,19 @@ class Endereco(models.Model):
 
         if len(self.cep) < 8: # not re.search(r'[^0-9]', self.cep) or
             error_messages.update({'cep': 'Cep inválido'})
+
         if error_messages:
             raise ValidationError(error_messages)
+        
+
 
 
 class DadosUsuario(models.Model):
     nome = models.CharField(max_length=50, null=True, blank=True)
     sobrenome = models.CharField(max_length=50, null=True, blank=True)
-    cpf = models.CharField(max_length=50, null=True, blank=True)
+    cpf = models.CharField(max_length=50, null=True, blank=True, unique=True)
     telefone = models.CharField(max_length=15, null=True, blank=True)
+    nascimento = models.DateField(null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -79,3 +84,6 @@ class DadosUsuario(models.Model):
                 error_messages.update({'cpf': 'Digite um CPF válido'})
             if error_messages:
                 raise ValidationError(error_messages)
+
+    def full_name(self):
+        return f'{self.nome} {self.sobrenome}'.capitalize()

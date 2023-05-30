@@ -14,7 +14,7 @@
                       <li><a class="dropdown-item" href="/">Todos os produtos</a></li>
                       <li><hr class="dropdown-divider" /></li>
                       {% for categoria in categorias %}
-                      <li><a class="dropdown-item" href="#">{{categoria}}</a></li>
+                      <li><a class="dropdown-item" href="{% url 'produto:filtro_categoria' categoria.id%}">{{categoria}}</a></li>
                       {% endfor %}
 
                   </ul>
@@ -23,7 +23,7 @@
                     <a href="/" class="nav-link  " aria-current="page">Promoções</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link " aria-current="page">Lançamentos</a>
+                    <a href="{% url 'produto:lancamento' %}" class="nav-link " aria-current="page">Lançamentos</a>
                 </li>
                  </ul>
                    
@@ -31,9 +31,15 @@
                 <div class='input-group input-group-sm'>
                     <input class='form-control' type="text" name='nome' value='{{request.GET.nome}}' placeholder='Digite sua pesquisa...' aria-label='Search'>
                     <button type"submit" class='btn btn-dark btn-sm'><i class='bi bi-search'></i></button>
-                    <a href="{% url 'produto:list' %}" class='btn btn-dark btn-sm mx-1'> <i class='bi bi-x-circle'></i></a>
                 </div>
             </form>
+            <a href='{% url "produto:carrinho" %}' class="d-flex text-decoration-none">
+                <button class="btn btn-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                  
+                    <span class="badge text-bg-light ms-1 rounded-pill">{{request.session.carrinho|length}}x</span>
+                </button>
+              </a>
         </div>
 
     </div>

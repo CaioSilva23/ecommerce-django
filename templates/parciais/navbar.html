@@ -8,23 +8,39 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
              
-              {% if request.user.is_authenticated %}
+              {% comment %} {% if request.user.is_authenticated %}
               <li class="nav-item"><a class="nav-link active" href="/">Pedidos</a></li>
-              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:dados' request.user.dadosusuario.id%}">Perfil</a></li>
-              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:logout' %}">Logout</a></li>
-              {% else %}
-              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:login' %}">Login</a></li>
-              <li class="nav-item"><a class="nav-link active" href="{% url 'autenticacao:cadastro' %}">Sign Up</a></li>
-              {% endif %}
+              <li class="nav-item"><a class="nav-link active" href="">Perfil</a></li>
+              {% endif %} {% endcomment %}
               
           </ul>
-          <a href='{% url "produto:carrinho" %}' class="d-flex text-decoration-none">
-              <button class="btn btn-outline-light" type="submit">
-                  <i class="bi-cart-fill me-1"></i>
-                  Cart
-                  <span class="badge bg-dark text-white ms-1 rounded-pill">{{request.session.carrinho|length}}x</span>
-              </button>
-            </a>
+          {% if not request.user.is_authenticated %}
+
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-light rounded-5 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class='bi bi-person-fill'></i>Faça login
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url "autenticacao:login" %}">Login</a></li>
+              <li><a class="dropdown-item" href="{% url "autenticacao:cadastro" %}">Cadastre-se</a></li>
+            </ul>
+          </div>
+          {% else %}
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-light rounded-5 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class='bi bi-person '></i>Olá, {{request.user}}
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'autenticacao:dados' request.user.dadosusuario.id%}">Minha conta</a></li>
+              <li><a class="dropdown-item" href="#">Meus pedidos</a></li>
+              <li>
+                <a class='dropdown-item' type="button" data-bs-toggle="modal" data-bs-target="#modal_logout">
+                  Sair
+                </a>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
       </div>
   </div>
 </nav>

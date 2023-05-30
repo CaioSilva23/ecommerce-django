@@ -8,89 +8,50 @@
 
 {% if request.session.carrinho %}
 
-<div class="row mt-3">
-    <div class="col">
-        <h3>Carrinho de compras</h3>
-        <p class="lead">Os produtos, quantidades e preços que você escolheu.</p>
-
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <th class="d-none d-lg-block">Imagem</th>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                    <th>Valor Unitário</th>
-                    <th>Valor Total</th>
-                </tr>
-
-                {% for item in carrinho.values %}
-                <tr>
-                    <td class="d-none d-lg-block">
-                        <img width="150" class="cart-img" src="{% get_media_prefix%}{{ item.imagem }}">
-                    </td>
-                    <td>
-                        <a class="ml-3 text-decoration-none" href="{% url 'produto:detail' item.slug%}">
-                            {{item.produto_nome}} - {{item.variacao_nome}}
-                        </a>
-                        <a class="ml-3" href="{% url 'produto:remove_carrinho' %}?id_variacao={{item.id_variacao}}">
-                            <i class="bi bi-x-circle text-danger" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                    
-                    <td> 
-                        <a href="{% url 'produto:add_carrinho' %}?id_variacao={{item.id_variacao}}&menos=true" class='text-decoration-none'>
-                            <i class="bi bi-caret-left-fill"></i>
-                        </a>
-
-                        {{item.quantidade}}x
-
-                        <a href="{% url 'produto:add_carrinho'%}?id_variacao={{item.id_variacao}}&mais=true" class='text-decoration-none'>
-                            <i class="bi bi-caret-right-fill"></i>
-                        </a>
-                       
-                    </td>
-                    <td>{{item.preco_unitario_promo|formata_preco}}</td>
-                    <td>{{item.preco_quantitativo_promo|formata_preco}}</td>
-                </tr>
-                {% endfor %}
-
-            </table>
-        </div>
+<div class="row mt-5">
+    <h3>Carrinho de compras</h3>
+    <p class="lead">Os produtos, quantidades e preços que você escolheu.</p>
+    <div class="col-md-12 border rounded-2 mt-3">
+       
+        {% include 'parciais/carrinho_resumo.html' %}
     </div>
 </div>
 
 
 
 <div class="row mt-3">
-    <div class="col-lg">
-        <p class='lead'>Total no carrinho </p>
-
-        <div class='table-responsive'>
-            <table class="table">
-                <tr>
-                    <td class="font-weight-bold">Total</td>
-                    <td>{{total|formata_preco}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="col-lg mt-auto">
-        <a class="btn btn-lg btn-block btn-primary" href="#">
-            Finalizar a compra
+    <div class="col-md-5 mb-5">
+        <p class="fs-2">
+            Total: {{carrinho|total_carrinho|formata_preco}}
+        </p>
+        <hr>
+      
+        <a class="btn btn-lg btn-block btn-dark" 
+        href="  {% if request.user.is_authenticated %}
+                    {% url 'produto:resumo' %}
+                {% else %}
+                    {% url 'autenticacao:login' %}
+                {% endif %}">
+        Finalizar
         </a>
-    </div>
-    <div class="col-lg mt-auto">
-        <a class="btn btn-lg btn-block btn-primary" href="{% url 'produto:limpar_carrinho' %}">
+        <a class="btn btn-lg btn-block btn-dark" href="{% url 'produto:limpar_carrinho' %}">
             Limpar carrinho
         </a>
+
     </div>
+   
+  
 </div>
 {% else %}
-<div class="row mt-3">
-    <div class="col">
+<div class="row mt-5">
+    <div class="col-md-12">
         <h3>Carrinho vazío</h3>
         <p class="lead">Selecione os produtos desejados e adicione ao seu carrinho</p>
+        <a class="btn btn-light" href="/">
+            Volte e selecione os produtos...
+        </a>
     </div>
+   
 </div>
 {% endif %}
 

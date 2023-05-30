@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="shortcut icon" href="{% static 'img/raio.png' %}" type="image/x-icon">
+
     <!--IMPORTAÇÕES-->
    {% include "parciais/head.html" %}
 
@@ -16,14 +18,16 @@
 </head>
 <body>
 
-    <!--INCLUDE NAVBAR-->
+    <!--INCLUDE NAVBAR-->    
     {% include 'parciais/navbar.html' %}
     {% block new_navbar %}{% endblock new_navbar %}
 
-        
+    <!--LISTAGEM DE PRODUTO - HOME-->    
     {% block listagem %}    
     {% endblock listagem %}
 
+
+    <!--CONTAINER PARA DEMAIS PÁGINAS-->
     <div class="container mt-4 mb-5">
     {% block conteudo %}{% endblock conteudo %}
     </div>
@@ -32,6 +36,10 @@
 
     <!--Messagem da view backend-->
     {% include 'parciais/message.html' %}
+
+
+    <!--MODAL LOGOUT-->
+    {% include 'parciais/modal_logout.html' %}
     <!--IMPORTAÇÕES JS-->
 
     
@@ -47,7 +55,7 @@
     <!--SWEET ALERT-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--JS STATIC  -->
-    <script src='{% static "geral/js/scripts.js" %}'></script>
+    <script src='{% static "js/scripts.js" %}'></script>
   
     
 </body>

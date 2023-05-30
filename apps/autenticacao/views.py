@@ -76,3 +76,17 @@ class DeleteEndereco(LoginRequiredMixin, DeleteView):
     def get_success_url(self) -> str:
         messages.success(self.request, 'Endereço deletado com sucesso!')
         return super().get_success_url()
+
+
+from django.shortcuts import redirect
+
+def endereco_padrao(request, id):
+    padrao_antigo = Endereco.objects.filter(padrao=True).first()
+    if padrao_antigo:
+        padrao_antigo.padrao = False
+        padrao_antigo.save()
+
+    novo_padrao = Endereco.objects.get(id=id)
+    novo_padrao.padrao = True
+    novo_padrao.save()
+    return redirect('autenticacao:endereco')

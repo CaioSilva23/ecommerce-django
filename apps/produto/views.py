@@ -1,10 +1,12 @@
 from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
 from produto.models import Produto, Variacao, Categoria
 from django.contrib import messages
 from django.urls import reverse
+from autenticacao.models import Endereco
 
 # from pprint import pprint
 
@@ -15,6 +17,12 @@ class ListProduts(ListView):
     context_object_name = 'produtos'
     paginate_by = 8
 
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        qs = qs.select_related('categoria')
+        qs = qs.order_by('nome').filter(publicado=True)
+        return qs
+
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
         ctx.update({"categorias": Categoria.objects.all()})
@@ -24,6 +32,20 @@ class ListProduts(ListView):
             produtos = Produto.objects.filter(nome__icontains=nome)
             ctx['produtos'] = produtos
         return ctx
+
+
+class CategoriaFiltro(ListProduts):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(categoria_id=self.kwargs['pk'])
+        return qs
+
+
+class CategoriaFiltroLancamento(ListProduts):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(lancamento=True)
+        return qs
 
 
 class DetailProducts(DetailView):
@@ -121,7 +143,7 @@ class AddAoCarrinho(View):
 
         self.request.session.save()
         messages.success(self.request, 'Item adicionado ao carrinho')
-        return redirect(http_referer)
+        return redirect('produto:carrinho')
 
 
 class RemoveDoCarrinho(View):
@@ -143,11 +165,9 @@ class Carrinho(View):
         #     del self.request.session['carrinho']
 
         carrinho = self.request.session.get('carrinho', {})
-        total = sum(i['preco_quantitativo_promo'] for i in carrinho.values())
 
         ctx = {
             'carrinho': carrinho,
-            'total': total,
         }
 
         # pprint(ctx['carrinho'])
@@ -159,6 +179,21 @@ class LimparCarrinho(View):
     def get(self, *args, **kwargs):
         del self.request.session['carrinho']
         return redirect('produto:carrinho')
+
+
+class ResumoDaCompra(View):
+    def get(self, *args, **kwargs):
+        carrinho = self.request.session.get('carrinho', {})
+
+        ctx = {
+            'usuario': self.request.user,
+            'carrinho': carrinho,
+            'endereco': Endereco.objects.filter(user=self.request.user).filter(padrao=True).first()
+            
+        }
+        print(ctx['endereco'])
+        return render(self.request, 'produto/resumo.html', context=ctx)
+
 
 
 class Finalizar(View):

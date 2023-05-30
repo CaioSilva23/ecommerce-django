@@ -9,17 +9,19 @@
 
 <div class="row">
     <div class="col-md-4 mx-auto">
-        <h3>Cadastre-se</h3>
-        <hr>
-        <form method='POST' action='{% url "autenticacao:cadastro" %}'>
-            {% csrf_token %}
-            {{form|crispy}}
-            <div class="row mx-auto">
-          
-                    <button class='btn btn-dark btn-block' type="submit">Cadastre-se</button>
-       
-            </div>
-        </form>
+        <div class="border rounded-5 p-5">
+            <h3>Cadastre-se</h3>
+            <hr>
+            <form method='POST' action='{% url "autenticacao:cadastro" %}'>
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="row mx-auto">
+            
+                        <button class='btn btn-dark btn-block' type="submit">Cadastre-se</button>
+        
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

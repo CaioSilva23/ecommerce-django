@@ -6,53 +6,58 @@
 
 {% block conteudo %}
 
- 
-<div class="row ">
-    <div class="col-md-8 mx-auto">
-        <h3>Endereços - {{request.user.username|title}}</h3>
-        <div class="col">
-            <a href='{% url "autenticacao:novo_endereco" %}' class='btn btn-dark btn-block' type="submit">Novo endereço</a>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="p-3 bg-dark bg-opacity-10 border border-dark rounded-3">
+            <h3 class='bb'>Seus endereços</h3>
         </div>
         <hr>
-        <div class='row '>
-            {% for endereco in enderecos %}
-            <div class='col-6'>
-                <div class="card mb-2 " >
-                    <div class="card-body text-center ">
-                        <h5 class="card-title">{{endereco.rua|title}}, n°{{endereco.numero}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro|title}}, {{endereco.cidade|title}} - {{endereco.estado}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">{{endereco.complemento|title}}</h6>
-                        <p class="card-text">{{request.user.username|title}}</p>
-                        <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-warning">Editar</a>
+    </div>
+</div>
+ 
+<div class="row ">
+    <div class="col-md-3">
+        {% include 'parciais/siderbarperfil.html' %}
+    </div>
+    <div class='col-md-9'>
+        <div class="row">
+        {% for endereco in enderecos %}
+        <div class='col-md-6'>
+            <div class="card mb-2 " >
+                <div class="card-body text-center ">
+                    <h5 class="card-title">{{endereco.rua|title}}, n°{{endereco.numero}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro|title}}, {{endereco.cidade|title}} - {{endereco.estado}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{endereco.complemento|title}}</h6>
+                    {% if endereco.padrao %}
+                    <p class="card-text"> <span class="badge text-bg-primary">Padrão</span></p>
+                    {% else %}
+                        <p class="card-text"> 
+                            <a href="{% url 'autenticacao:endereco_padrao' endereco.id%}">
+                                <span class="badge text-bg-danger">Tornar padrão</span>
+                            </a>
+                        </p>
+                  
+                    {% endif %}
+                    <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-light">Editar</a>
 
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{endereco.id}}">
-                            DELETAR 
-                        </button>
-                        {% comment %} <a href="{% url 'autenticacao:delete_endereco' endereco.id%}" class="card-link btn btn-danger">Deletar</a> {% endcomment %}
-                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{endereco.id}}">
+                        Deletar 
+                    </button>
                 </div>
             </div>
-              {% endfor %}
         </div>
-      
-        {% comment %} <form method='POST' action='{% url "autenticacao:endereco" %}'>
-            {% csrf_token %}
-            {{form_endereco|crispy}}
-            <div class="row">
-                <div class="col">
-                    <button class='btn btn-dark btn-block' type="submit">Enviar</button>
-                </div>
-            </div>
-        </form> {% endcomment %}
+        {% endfor %}
+        </div>
+        <div>
+            <a href='{% url "autenticacao:novo_endereco" %}' class='btn btn-secondary'>Novo endereço</a>
+        </div>
     </div>
 </div>
 
 
 {% for i in enderecos %}
-
-
-  
   <!-- Modal -->
   <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -78,4 +83,43 @@
     </div>
   </div>
   {% endfor %}
+
 {% endblock %}
+
+{% comment %} 
+<div class="row ">
+    <div class="col-md-12 mx-auto">
+        <div class='row'>
+            <div class="col-md-3">
+                {% include 'parciais/siderbarperfil.html' %}
+
+            </div>
+            <div class='col-md-9'>
+                <div class="row">
+                {% for endereco in enderecos %}
+                
+                <div class='col-md-6'>
+                    <div class="card mb-2 " >
+                        <div class="card-body text-center ">
+                            <h5 class="card-title">{{endereco.rua|title}}, n°{{endereco.numero}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{endereco.bairro|title}}, {{endereco.cidade|title}} - {{endereco.estado}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{endereco.complemento|title}}</h6>
+                            <p class="card-text">{{request.user.username|title}}</p>
+                            <a href="{% url 'autenticacao:update_endereco' endereco.id%}" class="card-link btn btn-light">Editar</a>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{endereco.id}}">
+                                Deletar 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            </div>
+              <div class="col justify-content-md-center">
+                <a href='{% url "autenticacao:novo_endereco" %}' class='btn btn-secondary'>Novo endereço</a>
+              </div>
+        </div>
+    </div>
+</div> {% endcomment %}

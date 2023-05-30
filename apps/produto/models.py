@@ -26,6 +26,8 @@ class Produto(models.Model):
                             blank=True,
                             null=True)
     slug = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    publicado = models.BooleanField(default=False)
+    lancamento = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.nome
