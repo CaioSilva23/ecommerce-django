@@ -9,6 +9,11 @@
 {% if request.session.carrinho %}
 
 <div class="row mt-5">
+    {% if request.user.is_authenticated %}
+        {% if not request.user.dadosusuario.perfil_valid %} <!--VERIFICAR SE O USUÁRIO PREENCHEU OS DADOS PESSOAIS-->
+        <h5 class='alert alert-danger'>Atualize seus dados <a href="{% url 'autenticacao:dados' request.user.dadosusuario.pk%}">aqui</a></h5>
+        {% endif %}
+    {% endif %}
     <h3>Carrinho de compras</h3>
     <p class="lead">Os produtos, quantidades e preços que você escolheu.</p>
     <div class="col-md-12 border rounded-2 mt-3">
@@ -25,15 +30,31 @@
             Total: {{carrinho|total_carrinho|formata_preco}}
         </p>
         <hr>
-      
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.dadosusuario.perfil_valid %}
+            <a class="btn btn-lg btn-block btn-dark" 
+            href="{% url 'produto:resumo' %}">
+            Finalizar
+            </a>
+            {% else %}
+            <p class='text-danger'><strong>Atualize seus antes de prosseguir com seu pedido.</strong></p>
+            <a class="btn btn-lg btn-block btn-dark" 
+            href="{% url 'autenticacao:dados' request.user.dadosusuario.pk%}">
+            Atualizar
+            </a>
+            {% endif %}
+
+        {% else %}
+        <p class='text-danger'><strong>Faça login para finalizar o seu pedido</strong></p>
+
         <a class="btn btn-lg btn-block btn-dark" 
-        href="  {% if request.user.is_authenticated %}
-                    {% url 'produto:resumo' %}
-                {% else %}
-                    {% url 'autenticacao:login' %}
-                {% endif %}">
-        Finalizar
+        href="{% url 'autenticacao:login'%}">
+        Faça login
         </a>
+        {% endif %}
+      
+     
         <a class="btn btn-lg btn-block btn-dark" href="{% url 'produto:limpar_carrinho' %}">
             Limpar carrinho
         </a>

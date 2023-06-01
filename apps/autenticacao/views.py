@@ -1,6 +1,6 @@
 from typing import Any, Dict
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import EnderecoForm, RegisterForms, DadosUsuarioForm
@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Endereco, DadosUsuario
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 
 
 class Cadastro(CreateView):
@@ -16,6 +17,9 @@ class Cadastro(CreateView):
     success_url = reverse_lazy('autenticacao:login')
 
     def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(user.password)
+        user.save()
         messages.success(self.request, 'Cadastro realizado com sucesso!')
         return super().form_valid(form)
 
@@ -24,6 +28,11 @@ class DadosUsuario(LoginRequiredMixin, UpdateView):
     template_name = 'perfil.html'
     model = DadosUsuario
     form_class = DadosUsuarioForm
+
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        if self.get_object().pk != self.request.user.dadosusuario.pk:
+            raise Http404()
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self) -> str:
         messages.success(self.request, 'Perfil editado com sucesso!')

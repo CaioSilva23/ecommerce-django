@@ -19,11 +19,17 @@
             <div class="col-md-6">
                 <p><strong>Nome completo:&nbsp;&nbsp;</strong>{{ usuario.dadosusuario.full_name }}</p>
                 <p><strong>Data de Nascimento:&nbsp;&nbsp;</strong> {{ usuario.dadosusuario.nascimento }} </p>
-                <p><strong>Email:&nbsp;&nbsp;</strong>{{ usuario.email }} </p>
+                <p><strong>Email:&nbsp;&nbsp;</strong>{{ request.user.email }} </p>
                 <p><strong>CPF:&nbsp;&nbsp;</strong>{{ usuario.dadosusuario.cpf}} </p>
             </div>
             <div class="col-md-6">
-          
+                {% if not endereco %}
+                <p><strong>
+                    <a class='text-danger' href="{% url 'autenticacao:endereco' %}">
+                        Atualize seu endereço antes de prosseguir!
+                    </a>
+                </strong></p>
+                {% endif %}
                 <p><strong>Endereço:&nbsp;&nbsp;</strong>{{ endereco.rua|title }},&nbsp;{{endereco.numero}} </p>
                 <p><strong>Bairro:&nbsp;&nbsp;</strong> {{endereco.bairro}} </p>
                 <p><strong>Cidade/Estado:&nbsp;&nbsp;</strong>{{ endereco.cidade }}-{{endereco.estado}}</p>
@@ -41,13 +47,13 @@
 
     </div>
 
-    <div class="col-md-3 mb-5">
-        <p class="fs-2">
+    <div class="col-3 mb-5">
+        <p class="fs-4">
             Total: {{carrinho|total_carrinho|formata_preco}}
         </p>
         <hr>
       
-        <a class="btn btn-lg btn-dark" href="{% url 'produto:resumo' %}">
+        <a class="btn btn-lg btn-dark" href="{% url 'pedido:salvarpedido' %}">
             Finalizar
         </a>
         <a class="btn btn-lg btn-dark" href="{% url 'produto:carrinho' %}">

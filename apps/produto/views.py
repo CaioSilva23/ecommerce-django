@@ -170,8 +170,6 @@ class Carrinho(View):
             'carrinho': carrinho,
         }
 
-        # pprint(ctx['carrinho'])
-
         return render(self.request, 'produto/carrinho.html', ctx)
 
 
@@ -185,13 +183,14 @@ class ResumoDaCompra(View):
     def get(self, *args, **kwargs):
         carrinho = self.request.session.get('carrinho', {})
 
+        if not carrinho:
+            return redirect('/')
+
         ctx = {
             'usuario': self.request.user,
             'carrinho': carrinho,
-            'endereco': Endereco.objects.filter(user=self.request.user).filter(padrao=True).first()
-            
+            'endereco': Endereco.objects.filter(user=self.request.user).filter(padrao=True).first()   
         }
-        print(ctx['endereco'])
         return render(self.request, 'produto/resumo.html', context=ctx)
 
 

@@ -8,19 +8,33 @@
 
 
 <div class="row">
-    <div class="col-md-4 mx-auto">
+    <div class="col-md-6 mx-auto">
         <div class="border rounded-5 p-5">
             <h3>Cadastre-se</h3>
             <hr>
             <form method='POST' action='{% url "autenticacao:cadastro" %}'>
+                <div class="row">
+                    <div class="col-12">
+                        {{form.username|as_crispy_field}}
+                        {{form.email|as_crispy_field}}
+                    </div>
+                    <div class="col-6">
+                        {{form.password|as_crispy_field}}
+                    </div>
+                    <div class="col-6">
+                        {{form.password2|as_crispy_field}}
+                    </div>
+                </div>
                 {% csrf_token %}
-                {{form|crispy}}
+                
                 <div class="row mx-auto">
-            
-                        <button class='btn btn-dark btn-block' type="submit">Cadastre-se</button>
-        
+                    <button class='btn btn-dark btn-block' type="submit">Cadastre-se</button>
                 </div>
             </form>
+            <p class='text-center mt-3 fs-5'>
+                <a class='text-decoration-none' href="{% url 'autenticacao:login' %}">
+                    <i class='bi bi-person'></i>Faça login</a>
+            </p>
         </div>
     </div>
 </div>

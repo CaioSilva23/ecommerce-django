@@ -73,6 +73,14 @@ class DadosUsuario(models.Model):
     def __str__(self) -> str:
         return f'{self.nome} {self.sobrenome}'
 
+
+
+    def perfil_valid(self):
+        if self.nome and self.sobrenome and self.cpf and self.telefone and self.nascimento:
+            return True
+        else:
+            return False
+
     class Meta:
         verbose_name = 'Dados de usuário'
         verbose_name_plural = 'Dados dos usuários'

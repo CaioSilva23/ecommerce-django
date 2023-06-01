@@ -13,6 +13,7 @@ class Pedido(models.Model):
 
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     total = models.FloatField()
+    qtd_total = models.IntegerField()
     status = models.CharField(max_length=1, choices=status_choices, default='C')
 
     def __str__(self) -> str:
