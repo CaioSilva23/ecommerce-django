@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load filtros %}
+
+
+{% block title %}Pedidos - {{request.user|title}}{% endblock title %}
+
+{% block conteudo %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="p-3 bg-dark bg-opacity-10 border border-dark rounded-3">
+            <h3 class='bb'>{{pedido}}</h3>
+        </div>
+        <hr>
+    </div>
+</div>
+ 
+<div class="row ">
+    <div class="col-md-3">
+        {% include 'parciais/siderbarperfil.html' %}
+    </div>
+    <div class='col-md-9'>
+       
+    </div>
+    
+</div>
+
+
+
+{% endblock %}

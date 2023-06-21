@@ -20,4 +20,5 @@ urlpatterns = [
     path('update_endereco/<int:pk>/', views.UpdateEndereco.as_view(), name='update_endereco'),
 
     path('endereco_padrao/<int:id>/', views.endereco_padrao, name='endereco_padrao'),
+
 ]

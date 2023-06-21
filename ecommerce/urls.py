@@ -9,8 +9,10 @@ urlpatterns = [
     path('', include('produto.urls')),
     path('', include('pedido.urls')),
     path('', include('autenticacao.urls')),
+
 ]
 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

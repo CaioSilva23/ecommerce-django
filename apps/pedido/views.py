@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.views.generic import View, ListView, DetailView
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -75,14 +76,14 @@ class SalvarPedido(View):
         return redirect(reverse('pedido:pagar', kwargs={'pk': pedido.pk}))
 
 
-class ListarPedidos(ListView):
-    template_name = 'listar.html'
-    model = Pedido
+class ListarPedidos(LoginRequiredMixin, ListView):
+    template_name = 'pedidos.html'
+    context_object_name = 'pedidos'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return Pedido.objects.filter(usuario=self.request.user).order_by('-data')
 
 
-class Finalizar(View):
-    pass
-
-
-class Detalhes(View):
-    pass
+class Detalhes(Pagar):
+    template_name = 'pedido_detail.html'

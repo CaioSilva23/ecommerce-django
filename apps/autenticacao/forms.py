@@ -2,6 +2,7 @@ from typing import Any, Dict
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
 from .models import Endereco, DadosUsuario
 from utils import strong_password
 
@@ -81,13 +82,25 @@ class RegisterForms(forms.ModelForm):
                 ],
             })
 
+
 class DadosUsuarioForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+    def clean(self) -> Dict[str, Any]:
+        if self.cleaned_data['cpf']:
+            cpf = forms.CharField(disabled=True)
+            print('foi')
+        return super().clean()
     
+
+
     class Meta:
         model = DadosUsuario
         fields = "__all__"
         exclude = ('user',)
-      
+  
 
 class EnderecoForm(forms.ModelForm):
     class Meta:
@@ -95,7 +108,7 @@ class EnderecoForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('user',)
 
-    def clean(self) -> Dict[str, Any]:
+    def clean(self):
         super().clean()
         if self.cleaned_data['padrao']:
             padrao_antigo = Endereco.objects.filter(padrao=True).first()

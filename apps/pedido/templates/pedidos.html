@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load filtros %}
+
+
+{% block title %}Pedidos - {{request.user|title}}{% endblock title %}
+
+{% block conteudo %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="p-3 bg-dark bg-opacity-10 border border-dark rounded-3">
+            <h3 class='bb'>Meus pedidos</h3>
+        </div>
+        <hr>
+    </div>
+</div>
+ 
+<div class="row ">
+    <div class="col-md-3">
+        {% include 'parciais/siderbarperfil.html' %}
+    </div>
+    <div class='col-md-9'>
+        {% for pedido in pedidos %}
+        <div class="card text-center mb-2">
+            <div class="card-header">
+              Pedido n° {{pedido.pk}}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                <span class="badge text-bg-success">Satus: {{pedido.get_status_display}}</span>
+                <span class="badge text-bg-success">Valor: {{pedido.total|formata_preco}}</span>
+            </h5>
+            <a href='{% url "pedido:detalhes" pedido.pk %}' class="text-decoration-none"><i class='bi bi-search'></i>Ver pedido</a>
+            </div>
+            <div class="card-footer text-muted">
+              {{pedido.data}}
+            </div>
+          </div>
+          {% empty%}
+          <p>Nenhum pedido encontrado.</p>
+          {% endfor %}
+    </div>
+    {% include 'parciais/pagination.html' %}
+    
+</div>
+
+
+
+{% endblock %}

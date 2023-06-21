@@ -99,3 +99,4 @@ def endereco_padrao(request, id):
     novo_padrao.padrao = True
     novo_padrao.save()
     return redirect('autenticacao:endereco')
+

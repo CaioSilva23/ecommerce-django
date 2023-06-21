@@ -47,6 +47,7 @@ cep.addEventListener('focusout',async () => {
   const responseCep = await response.json()
 
   if (!responseCep.logradouro){
+    
     swal('Opss !', 'Cep não encontrado, tente novamente!')
 
   }else{
@@ -62,4 +63,6 @@ cep.addEventListener('focusout',async () => {
 
   
  
-})
+});
+
+
